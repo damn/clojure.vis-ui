@@ -2,7 +2,7 @@
   (:require [clojure.gdx.scenes.scene2d.actor :as actor]
             [clojure.gdx.scenes.scene2d.stage :as stage]
             [clojure.gdx.utils.align :as align]
-            [clojure.vis-ui.label :as label])
+            [clojure.vis-ui.widget :as widget])
   (:import (com.kotcrab.vis.ui.widget Tooltip)))
 
 (defn- update-fn [tooltip-text]
@@ -19,7 +19,7 @@
 (defn add!
   [actor tooltip-text]
   (let [text? (string? tooltip-text)
-        label (doto (label/create (if text? tooltip-text ""))
+        label (doto (widget/label {:label/text (if text? tooltip-text "")})
                 (.setAlignment (align/k->value :center)))
         update-text! (update-fn tooltip-text)]
     (doto (proxy [Tooltip] []
