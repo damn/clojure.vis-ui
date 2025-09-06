@@ -1,6 +1,6 @@
 (ns clojure.vis-ui.window
-  (:require [clojure.gdx.scenes.scene2d.actor :as actor]
-            [clojure.gdx.scenes.scene2d.group :as group])
+  (:require [clojure.gdx.scenes.scene2d :as scene2d]
+            [clojure.gdx.scenes.scene2d.actor :as actor])
   (:import (com.badlogic.gdx.scenes.scene2d.ui Label
                                                Window)
            (com.kotcrab.vis.ui.widget VisWindow)))
@@ -12,7 +12,7 @@
            center?
            close-on-escape?]
     :as opts}]
-  (let [window (doto (group/proxy-ILookup VisWindow [^String title true]) ; true = showWindowBorder
+  (let [window (doto (scene2d/proxy-group VisWindow [^String title true]) ; true = showWindowBorder
                  (.setModal (boolean modal?)))]
     (when close-button?    (.addCloseButton window))
     (when center?          (.centerWindow   window))

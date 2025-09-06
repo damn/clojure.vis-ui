@@ -1,6 +1,6 @@
 (ns clojure.vis-ui.table
-  (:require [clojure.gdx.scenes.scene2d.group :as group])
+  (:require [clojure.gdx.scenes.scene2d :as scene2d])
   (:import (com.kotcrab.vis.ui.widget VisTable)))
 
 (defn create []
-  (group/proxy-ILookup VisTable []))
+  (scene2d/proxy-group VisTable []))
