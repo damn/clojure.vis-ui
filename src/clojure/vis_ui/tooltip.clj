@@ -1,10 +1,22 @@
 (ns clojure.vis-ui.tooltip
-  (:require [clojure.gdx.utils.align :as align]
+  (:require [clojure.gdx.scenes.scene2d.actor :as actor]
+            [clojure.gdx.scenes.scene2d.stage :as stage]
+            [clojure.gdx.utils.align :as align]
             [clojure.vis-ui.label :as label])
   (:import (com.kotcrab.vis.ui.widget Tooltip)))
 
+(defn- update-fn [tooltip]
+  (when-not (string? tooltip-text)
+    (let [actor (Tooltip/.getTarget tooltip)
+          ; acturs might be initialized without a stage yet so we do when-let
+          ; FIXME double when-let
+          ctx (when-let [stage (actor/get-stage actor)]
+                (stage/get-ctx stage))]
+      (when ctx ; ctx is only set later for update!/draw! ... not at starting of initialisation
+        (Tooltip/.setText tooltip (str (tooltip-text ctx)))))))
+
 (defn add!
-  [actor tooltip-text update-fn]
+  [actor tooltip-text]
   (let [text? (string? tooltip-text)
         label (doto (label/create (if text? tooltip-text ""))
                 (.setAlignment (align/k->value :center)))]
@@ -22,9 +34,3 @@
 
 (defn remove! [actor]
   (Tooltip/removeTooltip actor))
-
-(defn get-target [tooltip]
-  (Tooltip/.getTarget tooltip))
-
-(defn set-text! [tooltip text]
-  (Tooltip/.setText tooltip (str text)))
