@@ -89,7 +89,7 @@
     (table/set-opts! image-button opts)))
 
 (defmethod actor/build :actor.type/image-button [opts]
-  opts)
+  (image-button opts))
 
 (defn text-button
   ([text on-clicked]
